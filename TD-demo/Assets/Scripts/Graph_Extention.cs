@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Graph : MonoBehaviour
+public class Graph_Extention : MonoBehaviour
 {
     public Transform pointPrefab;
     Transform[] points;
@@ -10,14 +10,7 @@ public class Graph : MonoBehaviour
     [Range(10, 100)]
     public int resolution = 10;
 
-    bool needRefresh = false;
-
     private void Awake()
-    {
-        needRefresh = true;
-    }
-
-    private void OnInit()
     {
         points = new Transform[resolution];
         float step = 2f / resolution;
@@ -50,28 +43,4 @@ public class Graph : MonoBehaviour
             }
         }
     }
-
-    private void OnApplicationQuit()
-    {
-        needRefresh = false;
-    }
-
-#if UNITY_EDITOR
-    private void RemoveAllChildren()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            Destroy(transform.GetChild(i).gameObject);
-        }
-    }
-
-    private void OnValidate()
-    {
-        RemoveAllChildren(); 
-        if (needRefresh)
-        {
-            OnInit();
-        }
-    }
-#endif
 }
